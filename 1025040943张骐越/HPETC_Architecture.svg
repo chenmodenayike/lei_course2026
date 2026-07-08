@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" font-family="Arial, sans-serif">
+  <defs>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1a5276"/>
+      <stop offset="100%" style="stop-color:#2980b9"/>
+    </linearGradient>
+    <linearGradient id="onlineGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#27ae60"/>
+      <stop offset="100%" style="stop-color:#1e8449"/>
+    </linearGradient>
+    <linearGradient id="offlineGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#e67e22"/>
+      <stop offset="100%" style="stop-color:#d35400"/>
+    </linearGradient>
+    <linearGradient id="etGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#8e44ad"/>
+      <stop offset="100%" style="stop-color:#6c3483"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="3" dy="3" stdDeviation="4" flood-opacity="0.25"/>
+    </filter>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2c3e50"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#8e44ad"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="900" fill="#f5f7fa" rx="12"/>
+
+  <!-- Title Bar -->
+  <rect x="0" y="0" width="1200" height="70" fill="url(#headerGrad)" rx="12"/>
+  <rect x="0" y="35" width="1200" height="35" fill="url(#headerGrad)"/>
+  <text x="600" y="32" text-anchor="middle" fill="white" font-size="22" font-weight="bold">HPETC: High Precision and Efficient Anonymous Traffic Classification</text>
+  <text x="600" y="55" text-anchor="middle" fill="#d5e8f0" font-size="13">IEEE Transactions on Networking, Vol. 33, No. 3, June 2025 | Mei, Cheng, Yuan</text>
+
+  <!-- Input Traffic -->
+  <rect x="30" y="120" width="160" height="70" fill="#ecf0f1" stroke="#bdc3c7" stroke-width="2" rx="10" filter="url(#shadow)"/>
+  <text x="110" y="148" text-anchor="middle" fill="#2c3e50" font-size="14" font-weight="bold">Network Traffic</text>
+  <text x="110" y="168" text-anchor="middle" fill="#7f8c8d" font-size="11">Tor + non-Tor flows</text>
+  <text x="110" y="183" text-anchor="middle" fill="#e74c3c" font-size="10" font-style="italic">Base Rate: non-Tor/Tor = r</text>
+
+  <!-- Arrow from Input to Online -->
+  <line x1="190" y1="155" x2="240" y2="155" stroke="#2c3e50" stroke-width="2.5" marker-end="url(#arrowhead)"/>
+
+  <!-- ==================== ONLINE IDENTIFICATION MODULE ==================== -->
+  <rect x="245" y="100" width="420" height="135" fill="url(#onlineGrad)" rx="12" filter="url(#shadow)" opacity="0.95"/>
+  <text x="455" y="125" text-anchor="middle" fill="white" font-size="16" font-weight="bold">Online Identification Module</text>
+  <text x="455" y="145" text-anchor="middle" fill="#d5f5e3" font-size="11">Binary Classification: Tor vs non-Tor</text>
+
+  <!-- Online sub-components -->
+  <rect x="265" y="155" width="175" height="65" fill="rgba(255,255,255,0.15)" rx="8" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+  <text x="352" y="175" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Sequential Features</text>
+  <text x="352" y="192" text-anchor="middle" fill="#d5f5e3" font-size="10">First N=20 packets</text>
+  <text x="352" y="207" text-anchor="middle" fill="#d5f5e3" font-size="10">PL + IAT per packet</text>
+
+  <rect x="470" y="155" width="175" height="65" fill="rgba(255,255,255,0.15)" rx="8" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+  <text x="557" y="175" text-anchor="middle" fill="white" font-size="12" font-weight="bold">ML Classifier</text>
+  <text x="557" y="192" text-anchor="middle" fill="#d5f5e3" font-size="10">RF / CNN / etc.</text>
+  <text x="557" y="207" text-anchor="middle" fill="#d5f5e3" font-size="10">Conservative decision</text>
+
+  <!-- Arrow: Online -> Filter -->
+  <line x1="665" y1="165" x2="720" y2="165" stroke="#2c3e50" stroke-width="2.5" marker-end="url(#arrowhead)"/>
+  <text x="692" y="155" text-anchor="middle" fill="#2c3e50" font-size="10" font-weight="bold">y_i</text>
+
+  <!-- Filter Decision -->
+  <polygon points="760,130 810,165 760,200 710,165" fill="#f39c12" stroke="#e67e22" stroke-width="2" filter="url(#shadow)"/>
+  <text x="760" y="169" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Filter</text>
+
+  <!-- Filter -> non-Tor (discarded) -->
+  <line x1="760" y1="200" x2="760" y2="260" stroke="#e74c3c" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="810" y="235" fill="#e74c3c" font-size="10" font-weight="bold">non-Tor → Discard</text>
+  <text x="810" y="250" fill="#7f8c8d" font-size="9">Save storage &amp; compute</text>
+
+  <!-- Filter -> Target Tor to Offline -->
+  <line x1="810" y1="165" x2="870" y2="165" stroke="#2c3e50" stroke-width="2.5" marker-end="url(#arrowhead)"/>
+  <text x="840" y="155" text-anchor="middle" fill="#27ae60" font-size="10" font-weight="bold">Target Tor</text>
+
+  <!-- ==================== OFFLINE CLASSIFICATION MODULE ==================== -->
+  <rect x="875" y="100" width="300" height="135" fill="url(#offlineGrad)" rx="12" filter="url(#shadow)" opacity="0.95"/>
+  <text x="1025" y="125" text-anchor="middle" fill="white" font-size="16" font-weight="bold">Offline Classification</text>
+  <text x="1025" y="145" text-anchor="middle" fill="#fdebd0" font-size="11">Multi-class: Type / Website</text>
+
+  <rect x="895" y="155" width="125" height="65" fill="rgba(255,255,255,0.15)" rx="8" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+  <text x="957" y="175" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Statistical</text>
+  <text x="957" y="190" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Features</text>
+  <text x="957" y="207" text-anchor="middle" fill="#fdebd0" font-size="10">Complete flow</text>
+
+  <rect x="1035" y="155" width="125" height="65" fill="rgba(255,255,255,0.15)" rx="8" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+  <text x="1097" y="175" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Fine-grained</text>
+  <text x="1097" y="190" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Classifier</text>
+  <text x="1097" y="207" text-anchor="middle" fill="#fdebd0" font-size="10">DL / ML models</text>
+
+  <!-- Output -->
+  <line x1="1175" y1="165" x2="1185" y2="165" stroke="#2c3e50" stroke-width="2.5"/>
+  <text x="1187" y="155" fill="#d35400" font-size="10" font-weight="bold">→</text>
+
+  <!-- ==================== THREE ENHANCED TECHNIQUES ==================== -->
+  <rect x="140" y="300" width="920" height="370" fill="url(#etGrad)" rx="14" filter="url(#shadow)" opacity="0.12"/>
+  <rect x="140" y="300" width="920" height="370" fill="none" stroke="#8e44ad" stroke-width="2.5" rx="14" stroke-dasharray="8,4"/>
+  <text x="600" y="325" text-anchor="middle" fill="#6c3483" font-size="17" font-weight="bold">Three Enhanced Techniques (ETs)</text>
+  <text x="600" y="345" text-anchor="middle" fill="#7d3c98" font-size="12">Overcome Base Rate Fallacy — Improve B-precision</text>
+
+  <!-- Connection lines from modules to ETs -->
+  <line x1="350" y1="235" x2="350" y2="355" stroke="#8e44ad" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowPurple)"/>
+  <line x1="1025" y1="235" x2="1025" y2="355" stroke="#8e44ad" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowPurple)"/>
+
+  <!-- ===== BDET ===== -->
+  <rect x="165" y="360" width="270" height="170" fill="white" rx="10" filter="url(#shadow)" stroke="#8e44ad" stroke-width="1.5"/>
+  <rect x="165" y="360" width="270" height="35" fill="#8e44ad" rx="10"/>
+  <rect x="165" y="380" width="270" height="15" fill="#8e44ad"/>
+  <text x="300" y="384" text-anchor="middle" fill="white" font-size="14" font-weight="bold">BDET: Borderline Enhanced</text>
+
+  <text x="185" y="415" fill="#2c3e50" font-size="12" font-weight="bold">1. Boundary Sample Identification</text>
+  <text x="195" y="432" fill="#555" font-size="10">• KNN on Target samples</text>
+  <text x="195" y="447" fill="#555" font-size="10">• Classify: Safe / Boundary / Noise</text>
+
+  <text x="185" y="470" fill="#2c3e50" font-size="12" font-weight="bold">2. Boundary Sample Generation</text>
+  <text x="195" y="487" fill="#555" font-size="10">• Generate synthetic samples at boundary</text>
+  <text x="195" y="502" fill="#555" font-size="10">• Bias classifier toward Target class</text>
+  <text x="195" y="517" fill="#555" font-size="10">• ↑ Precision, slight ↓ Recall</text>
+
+  <!-- ===== USET ===== -->
+  <rect x="465" y="360" width="270" height="170" fill="white" rx="10" filter="url(#shadow)" stroke="#8e44ad" stroke-width="1.5"/>
+  <rect x="465" y="360" width="270" height="35" fill="#8e44ad" rx="10"/>
+  <rect x="465" y="380" width="270" height="15" fill="#8e44ad"/>
+  <text x="600" y="384" text-anchor="middle" fill="white" font-size="14" font-weight="bold">USET: Unbiased Sample Enhanced</text>
+
+  <text x="485" y="415" fill="#2c3e50" font-size="12" font-weight="bold">1. Collect Misclassified Samples</text>
+  <text x="495" y="432" fill="#555" font-size="10">• Online classifier errors → non-Target</text>
+  <text x="495" y="447" fill="#555" font-size="10">• Adjust training distribution</text>
+
+  <text x="485" y="470" fill="#2c3e50" font-size="12" font-weight="bold">2. AdaBoost-style Retraining</text>
+  <text x="495" y="487" fill="#555" font-size="10">• Reweight samples iteratively</text>
+  <text x="495" y="502" fill="#555" font-size="10">• Balance Target vs non-Target</text>
+  <text x="495" y="517" fill="#555" font-size="10">• Align with real-world distribution</text>
+
+  <!-- ===== MVET ===== -->
+  <rect x="765" y="360" width="270" height="170" fill="white" rx="10" filter="url(#shadow)" stroke="#8e44ad" stroke-width="1.5"/>
+  <rect x="765" y="360" width="270" height="35" fill="#8e44ad" rx="10"/>
+  <rect x="765" y="380" width="270" height="15" fill="#8e44ad"/>
+  <text x="900" y="384" text-anchor="middle" fill="white" font-size="14" font-weight="bold">MVET: Multi-voting Enhanced</text>
+
+  <text x="785" y="415" fill="#2c3e50" font-size="12" font-weight="bold">1. Train Multiple Classifiers</text>
+  <text x="795" y="432" fill="#555" font-size="10">• 4 classifiers (online + offline)</text>
+  <text x="795" y="447" fill="#555" font-size="10">• Each has different bias</text>
+
+  <text x="785" y="470" fill="#2c3e50" font-size="12" font-weight="bold">2. Voting Rules</text>
+  <text x="795" y="487" fill="#555" font-size="10">• NAIVE: majority + precision tiebreak</text>
+  <text x="795" y="502" fill="#555" font-size="10">• SLIGHTLY: consensus &lt; 3 → non-Target</text>
+  <text x="795" y="517" fill="#555" font-size="10">• STRONG: any 1 says non-Target → reject</text>
+
+  <!-- ===== Integration Box ===== -->
+  <rect x="250" y="555" width="700" height="100" fill="white" rx="10" filter="url(#shadow)" stroke="#8e44ad" stroke-width="2"/>
+  <text x="600" y="580" text-anchor="middle" fill="#6c3483" font-size="15" font-weight="bold">Enhanced Techniques Integration Pipeline</text>
+  <text x="600" y="600" text-anchor="middle" fill="#555" font-size="12">Traffic Aggregation → Feature Extraction → BDET (Training Samples) → Train 4 Classifiers</text>
+  <text x="600" y="620" text-anchor="middle" fill="#555" font-size="12">→ Collect Misclassified non-Target → USET (Retrain Offline) → MVET (Aggregate Results)</text>
+  <text x="600" y="640" text-anchor="middle" fill="#27ae60" font-size="12" font-weight="bold">Result: B-precision ↑ 8x at r=1000 | Robust across r=1 to r=1000</text>
+
+  <!-- Arrows from ETs to Integration -->
+  <line x1="300" y1="530" x2="420" y2="555" stroke="#8e44ad" stroke-width="1.5" marker-end="url(#arrowPurple)"/>
+  <line x1="600" y1="530" x2="600" y2="555" stroke="#8e44ad" stroke-width="1.5" marker-end="url(#arrowPurple)"/>
+  <line x1="900" y1="530" x2="780" y2="555" stroke="#8e44ad" stroke-width="1.5" marker-end="url(#arrowPurple)"/>
+
+  <!-- ==================== KEY RESULTS ==================== -->
+  <rect x="140" y="720" width="920" height="150" fill="#2c3e50" rx="12" filter="url(#shadow)"/>
+  <text x="600" y="748" text-anchor="middle" fill="white" font-size="16" font-weight="bold">Key Experimental Results</text>
+
+  <rect x="170" y="760" width="200" height="95" fill="rgba(39,174,96,0.2)" rx="8" stroke="#27ae60" stroke-width="1"/>
+  <text x="270" y="782" text-anchor="middle" fill="#27ae60" font-size="28" font-weight="bold">8x</text>
+  <text x="270" y="800" text-anchor="middle" fill="#ecf0f1" font-size="11">B-precision improvement</text>
+  <text x="270" y="818" text-anchor="middle" fill="#95a5a6" font-size="10">vs RF &amp; CNN at r=1000</text>
+
+  <rect x="400" y="760" width="200" height="95" fill="rgba(230,126,34,0.2)" rx="8" stroke="#e67e22" stroke-width="1"/>
+  <text x="500" y="782" text-anchor="middle" fill="#e67e22" font-size="28" font-weight="bold">94.9%</text>
+  <text x="500" y="800" text-anchor="middle" fill="#ecf0f1" font-size="11">B-precision at r=1000</text>
+  <text x="500" y="818" text-anchor="middle" fill="#95a5a6" font-size="10">Robust across all ratios</text>
+
+  <rect x="630" y="760" width="200" height="95" fill="rgba(142,68,173,0.2)" rx="8" stroke="#8e44ad" stroke-width="1"/>
+  <text x="730" y="782" text-anchor="middle" fill="#8e44ad" font-size="28" font-weight="bold">737x</text>
+  <text x="730" y="800" text-anchor="middle" fill="#ecf0f1" font-size="11">Flow filtering ratio</text>
+  <text x="730" y="818" text-anchor="middle" fill="#95a5a6" font-size="10">Online → Offline efficiency</text>
+
+  <rect x="860" y="760" width="180" height="95" fill="rgba(41,128,185,0.2)" rx="8" stroke="#2980b9" stroke-width="1"/>
+  <text x="950" y="782" text-anchor="middle" fill="#2980b9" font-size="22" font-weight="bold">84.14%</text>
+  <text x="950" y="800" text-anchor="middle" fill="#ecf0f1" font-size="11">Online precision</text>
+  <text x="950" y="818" text-anchor="middle" fill="#95a5a6" font-size="10">Real-world deployment</text>
+
+  <!-- Footer -->
+  <text x="600" y="890" text-anchor="middle" fill="#95a5a6" font-size="10">Vector diagram generated for academic assignment | Based on: Mei et al., "HPETC: High Precision and Efficient Anonymous TC in the Real-World," ToN 2025</text>
+</svg>
